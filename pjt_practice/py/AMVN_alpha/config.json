@@ -1,0 +1,6 @@
+{
+  "papago_api": "config.txt",
+  "base_dictionary_path": "data/행정표준준용어.xls",
+  "webdriver_path": "C:/dev/driver/chromedriver.exe"
+
+}
