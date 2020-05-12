@@ -1,0 +1,30 @@
+{
+  "papago_api": "data/config.txt",
+  "colab_base_path" : "drive/My Drive/pythonWorkspace/DeepLearning/AutoGenerating_VariableName/",
+  "base_dictionary_path": "data/행정표준준용어.xls",
+  "webdriver_path": "data/chromedriver.exe",
+  "w2idx_model": "data/embed/model.mdl",
+  "w2idx_embed": "data/embed/emb.np",
+  "vocab_path": "data/embed/w2idx.dic",
+  "weight_path": "data/embed/weights/",
+  "weight_name": "spacing_model",
+
+  "host_ip": "localhost",
+  "host_port": "9527",
+
+  "train_raw_path": "data/train_raw/",
+  "test_raw_path": "data/test_raw/",
+  "pos_raw_path": "data/pos_raw/",
+
+  "train_data_path": "data/train_data/",
+  "test_data_path": "data/test_data/",
+  "pos_data_path": "data/pos_data/",
+
+  "n_hidden": 50,
+  "max_seq_len": 300,
+  "gpu_count": 0,
+  "batch_size": 100
+
+
+
+}
