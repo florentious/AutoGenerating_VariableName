@@ -1,6 +1,6 @@
 import json
 
-fileName = 'config.json'
+fileName = 'utils/config.json'
 
 
 class Options:

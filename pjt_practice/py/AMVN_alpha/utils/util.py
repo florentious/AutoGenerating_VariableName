@@ -23,6 +23,7 @@ import json
 import os
 import numpy as np
 import mxnet as mx
+import re
 from AMVN_alpha.utils import option
 
 opt = option.Options()
@@ -32,6 +33,9 @@ def getCtx(gpu_count) :
         return mx.cpu(0)
     else :
         return(mx.gpu(i) for i in range(gpu_count))
+#
+# def getCtx(gpu_count) :
+#     return(mx.gpu(i) for i in range(gpu_count))
 
 # directory_path end check (if use '/')
 def dirEnd_check(path) :
@@ -91,3 +95,16 @@ def replaceEx(input_):
     for str_ in input_:
         res.append(str_.replace('::', '').replace('{', '').replace('-', ''))
     return res
+
+def sumStrList(list_) :
+    res = ''
+    for txt in list_ :
+        res += txt
+    return res
+
+def getSpacedKor(input_) :
+    return '_'.join(input_)
+
+def delEscapeChar(input_) :
+    regex = re.compile('[a-zA-Z]')
+    return ''.join(regex.findall(input_))

@@ -97,14 +97,18 @@ def define_word(text):
     driver.find_element_by_xpath("//button[@class='btn_search']").click()
 
     time.sleep(1)
-    driver.find_element_by_xpath(
-        "//div[@class='component_keyword has-saving-function']/div[@class='row']/div[@class='origin']/a").click()
-    time.sleep(1)
+    try :
+        driver.find_element_by_xpath(
+            "//div[@class='component_keyword has-saving-function']/div[@class='row']/div[@class='origin']/a").click()
+        time.sleep(1)
+        try:
+            output_ = driver.find_element_by_xpath("//ul[@class='mean_list my_mean_list']").text
+        except:
+            output_ = driver.find_element_by_xpath(
+                "//li[@class='mean_item']/div[@class='mean_desc']/p[@class='cont']").text
 
-    try:
-        output_ = driver.find_element_by_xpath("//ul[@class='mean_list my_mean_list']").text
-    except:
-        output_ = driver.find_element_by_xpath("//li[@class='mean_item']/div[@class='mean_desc']/p[@class='cont']").text
+    except :
+        output_ = "Sorry, Not-Found"
     finally:
         driver.close()
 

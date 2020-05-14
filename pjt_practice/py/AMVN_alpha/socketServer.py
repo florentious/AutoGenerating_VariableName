@@ -16,7 +16,9 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
         # self.request is the client connection
         data = self.request.recv(1024)  # clip input at 1Kb
         text = data.decode('utf-8')
-        pprint(json.loads(text))
+        # pprint(json.loads(text))
+
+        inObj = json.loads(text)
 
         # json_data : input_path, isUseInputDict, inputDict_path, isUseDefaultDict
         #         for key in json.loads(text):

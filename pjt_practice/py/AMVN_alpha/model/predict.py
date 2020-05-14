@@ -13,9 +13,8 @@ import numpy as np
 
 from AMVN_alpha.model.embed import encoding_and_padding
 from AMVN_alpha.utils.option import Options
-from AMVN_alpha.utils.util import load_embedding,getCtx,getModelWeights, load_vocab
+from AMVN_alpha.utils.util import load_embedding,getCtx,getModelWeights, load_vocab, delEscapeChar
 from AMVN_alpha.model.model import auto_spacing
-from AMVN_alpha.model.predict import pred_spacing
 
 opt = Options()
 
@@ -75,4 +74,33 @@ def predict(text) :
     model.load_parameters(getModelWeights(path=opt.weight_path), ctx=ctx)
     predictor = pred_spacing(model, w2idx)
 
-    return predictor.get_spaced_sent(text).split(' ')
+    tmp = predictor.get_spaced_sent(text).split(' ')
+
+    return list(filter(lambda x : x != '', tmp))
+
+def predict_test() :
+    vocab_path = opt.vocab_path
+    weights = load_embedding(opt.w2idx_embed)
+    model_params = getModelWeights(opt.weight_path)
+
+    vocab_size = weights.shape[0]
+    embed_dim = weights.shape[1]
+
+    max_seq_len = opt.max_seq_len
+    n_hidden = opt.n_hidden
+    ctx = getCtx(opt.gpu_count)
+
+    w2idx, idx2w = load_vocab(vocab_path)
+
+    model = auto_spacing(n_hidden, vocab_size, embed_dim, max_seq_len)
+    model.load_parameters(model_params, ctx=ctx)
+    predictor = pred_spacing(model, w2idx)
+
+    while True:
+        sent = input("sent (quit = 'q') > ")
+        # print(sent)
+        if sent.lower() == 'q' :
+            break
+        else :
+            spaced = predictor.get_spaced_sent(sent)
+            print(spaced)

@@ -1,3 +1,7 @@
+"""
+
+if use db, than use it
+"""
 
 class Singleton :
     __instance = None
