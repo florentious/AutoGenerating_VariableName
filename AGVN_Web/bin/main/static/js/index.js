@@ -33,23 +33,21 @@ $(document).ready(function() {
 		var form = $("#uploadForm")[0];
 		var data = new FormData(form);
 		
-		console.log(form);
 		console.log(data);
 		
 		$.ajax({
-			type : "POST",
+			type : "post",
 			enctype : "multipart/form-data",
-			url : "/fileUpload.do",
+			url : "/fileupload.do",
 			data : data,
 			processData : false,
 			contentType : false,
-			// dataType : 'json',
+//			dataType : 'json',
 			cache : false,
-			success : function(result) {
+			success : function() {
 				console.log("success");
-				$('#uploadForm')[0].reset();
 			},
-			error : function(result) {
+			error : function() {
 				console.log("fail");
 			}
 

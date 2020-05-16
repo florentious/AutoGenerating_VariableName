@@ -63,8 +63,8 @@
 				<div class="custom-file">
 					<form method="post" enctype="multipart/form-data" id="uploadForm">
 						<input type="file" class="custom-file-input" id="fileInput" name="fileInput">
+						<label class="custom-file-label" for="fileInput" id="fileInputLabel">Choose file</label>
 					</form> 
-					<label class="custom-file-label" for="fileInput" id="fileInputLabel">Choose file</label>
 				</div>
 				<div class="input-group-append">
 					<span type="button" class="input-group-text" id="convert">Convert</span>

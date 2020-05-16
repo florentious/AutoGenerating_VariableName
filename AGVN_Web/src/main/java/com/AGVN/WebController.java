@@ -1,26 +1,23 @@
 package com.AGVN;
 
-import java.io.BufferedOutputStream;
+
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
+
 
 @Controller
 public class WebController {
@@ -61,12 +58,15 @@ public class WebController {
 	}
 	*/
 	
-
-	@PostMapping("/fileUpload.do")
+	/*
+	@RequestMapping(value = "/fileUpload.do", method= RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> fileUpload(MultipartFile file) {
+		
+		
 		try {
 			String UPLOAD_DIR = "opt/uploads/";
+			
 			Path path = Paths.get(UPLOAD_DIR,file.getOriginalFilename());
 			
 			Files.write(path, file.getBytes());
@@ -77,7 +77,37 @@ public class WebController {
 		
 		return new ResponseEntity<>("File uploaded!!", HttpStatus.OK);
 	}
+	*/
 	
+	
+	@RequestMapping(value="/fileupload.do", method = RequestMethod.POST,produces="application/json")
+	@ResponseBody
+	public String upload(HttpServletRequest request) throws IOException {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		
+		MultipartFile file = multipartRequest.getFile("fileInput");
+		
+		boolean       isSuccess = false;
+		
+		
+		
+		// Default Construct File
+		String UPLOAD_DIR = "opt/uploads/";
+		File   dir        = new File(UPLOAD_DIR);
+		
+		if(!dir.exists()) {
+			dir.mkdirs();
+		}
+		
+		String fileName = file.getOriginalFilename();
+		
+//		Path path = Paths.get(UPLOAD_DIR,file.getOriginalFilename());
+//		Files.write(path, file.getBytes());
+		
+		
+		return "tmp_return";
+		
+	}
 	
 	
 	
