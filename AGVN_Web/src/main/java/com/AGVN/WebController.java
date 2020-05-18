@@ -6,108 +6,101 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+
+import com.google.gson.JsonObject;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 
 
 @Controller
 public class WebController {
-	@RequestMapping("/")
-	@ResponseBody
-	public String indexPage() {
-		return "hello";
-	}
 	
-	@RequestMapping("/index")
+	@RequestMapping("/")
 	public String jspPage(Model model) {
 		model.addAttribute("explain", "Explain Template");
 		return "index";
 	}
 	
-	/*
-	@RequestMapping(value = "/uploadFile.do", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<?> uploadFile(@RequestParam("uploadFile") MultipartFile uploadFile) {
-		
-		try {
-			//FileUpload Ajax
-			String filename = uploadFile.getOriginalFilename();
-			String directory = "var/temp_uploads/";
-			String filepath = Paths.get(directory,filename).toString();
-			
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-			
-			stream.write(uploadFile.getBytes());
-			stream.close();			
-			
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	*/
-	
-	/*
-	@RequestMapping(value = "/fileUpload.do", method= RequestMethod.POST, produces = "application/json")
-	@ResponseBody
-	public ResponseEntity<String> fileUpload(MultipartFile file) {
-		
-		
-		try {
-			String UPLOAD_DIR = "opt/uploads/";
-			
-			Path path = Paths.get(UPLOAD_DIR,file.getOriginalFilename());
-			
-			Files.write(path, file.getBytes());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>("Invalid file format!!", HttpStatus.BAD_REQUEST);
-		}
-		
-		return new ResponseEntity<>("File uploaded!!", HttpStatus.OK);
-	}
-	*/
-	
-	
+	// File Upload Ajax
 	@RequestMapping(value="/fileupload.do", method = RequestMethod.POST,produces="application/json")
 	@ResponseBody
 	public String upload(HttpServletRequest request) throws IOException {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		
+		// max file size = 30MB
+		JsonObject obj = null;
+		
 		MultipartFile file = multipartRequest.getFile("fileInput");
-		
-		boolean       isSuccess = false;
-		
-		
+		obj = new JsonObject();
 		
 		// Default Construct File
-		String UPLOAD_DIR = "opt/uploads/";
+		String UPLOAD_DIR = "data/upload/";
 		File   dir        = new File(UPLOAD_DIR);
 		
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}
 		
-		String fileName = file.getOriginalFilename();
+		Path path = Paths.get(UPLOAD_DIR,file.getOriginalFilename());
 		
-//		Path path = Paths.get(UPLOAD_DIR,file.getOriginalFilename());
-//		Files.write(path, file.getBytes());
+		try {
+			
+			// default upload
+			Files.write(path, file.getBytes());
+			
+			obj.addProperty("result", "success");
+			obj.addProperty("path", path.toString());
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			obj.addProperty("result", "fail");
+			return obj.toString();
+		}
 		
-		
-		return "tmp_return";
+		return obj.toString();
 		
 	}
+	
+	@RequestMapping(value="/conveySocket.do", method = RequestMethod.POST, produces="application/json")
+	@ResponseBody
+	public String conveySocket(@RequestBody HashMap<String, Object> map) {
+		
+		JsonObject obj = null;
+		
+//		System.out.println(request);
+		
+		boolean isUse = (Boolean) map.get("isUse");
+		String  path  = (String)  map.get("path");
+		String  type  = (String)  map.get("type");
+		String  model = (String)  map.get("model");
+		
+		SocketClient socket = new SocketClient("localhost",9898);
+		obj = socket.run(type, isUse, path, model);
+		
+		/*
+		obj = new JsonObject();
+		obj.addProperty("type",  type);
+		obj.addProperty("path",  path);
+		obj.addProperty("isUse", isUse);
+		*/
+		
+		
+		System.out.println(obj.toString());
+		
+		return obj.toString();
+		
+	}
+	
 	
 	
 	

@@ -8,9 +8,10 @@
   "vocab_path": "data/embed/w2idx.dic",
   "weight_path": "data/embed/weights/",
   "weight_name": "spacing_model",
+  "py2java_path": "../AGVN_Web/",
 
   "host_ip": "localhost",
-  "host_port": "9527",
+  "host_port": "9898",
 
   "train_raw_path": "data/train_raw/",
   "test_raw_path": "data/test_raw/",

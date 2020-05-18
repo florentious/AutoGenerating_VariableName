@@ -3,10 +3,13 @@ from pprint import pprint
 import json
 
 from utils import option
+from utils.convert import convert_File
 
 opt = option.Options()
 IP = opt.host_ip
-PORT = opt.host_port
+PORT = int(opt.host_port)
+
+py2java_path = opt.py2java_path
 
 
 class SingleTCPHandler(socketserver.BaseRequestHandler):
@@ -20,14 +23,17 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
 
         inObj = json.loads(text)
 
-        # json_data : input_path, isUseInputDict, inputDict_path, isUseDefaultDict
-        #         for key in json.loads(text):
-        #             pprint(json.loads(text)[key])
+        # pprint(inObj['isUse'])
+
+        # json_data : isUse, model, path, type
+        # for key in json.loads(text):
+        #     pprint(json.loads(text)[key])
+
+        isSuccess, output_path = convert_File(input_path=py2java_path+inObj['path'], output_path=py2java_path+'data/convert', isUseDict=inObj['isUse'],useType=inObj['model'])
 
         output = {
-            "status": True,
-            "output_path": "output/test.xlsx",
-            "newDict_path": "newDict.xlsx"
+            "status": isSuccess,
+            "output_path": output_path
         }
 
         self.request.send(bytes(json.dumps(output), 'UTF-8'))

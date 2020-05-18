@@ -17,6 +17,7 @@ class Options:
         self.vocab_path = jsonObj['vocab_path']
         self.weight_path = jsonObj['weight_path']
         self.weight_name = jsonObj['weight_name']
+        self.py2java_path = jsonObj['py2java_path']
 
         self.train_raw_path = jsonObj['train_raw_path']
         self.test_raw_path = jsonObj['test_raw_path']

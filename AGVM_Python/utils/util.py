@@ -57,6 +57,9 @@ def mkdirs_(output_path) :
     except :
         print('Error : '+ output_path)
 
+def changeDirSperacte(input_) :
+    return input_.strip().replace('\\', '/')
+
 def load_vocab(path):
     with open(path, 'r') as f:
         data = json.loads(f.read())

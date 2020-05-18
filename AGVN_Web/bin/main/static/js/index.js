@@ -22,9 +22,11 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 		if ($("#checkFile").val() == "yes") {
-			fileUpload();			
+			fileUpload();
+			//conveySocket('upload/input/template.xlsx');
 
 		} else {
+			
 
 		}
 	})
@@ -33,25 +35,66 @@ $(document).ready(function() {
 		var form = $("#uploadForm")[0];
 		var data = new FormData(form);
 		
-		console.log(data);
-		
 		$.ajax({
-			type : "post",
-			enctype : "multipart/form-data",
-			url : "/fileupload.do",
-			data : data,
+			type        : "post",
+			enctype     : "multipart/form-data",
+			url         : "/fileupload.do",
+			data        : data,
 			processData : false,
 			contentType : false,
-//			dataType : 'json',
-			cache : false,
-			success : function() {
-				console.log("success");
+			dataType    : 'text',
+			cache       : false,
+			success     : function(json) {
+				var res = JSON.parse(json)
+				console.log(res.result);
+				console.log(res.path);
+				console.log("success_upload_logs");
+				// if success -> socket(java to python)
+				conveySocket(res.path);
+				
 			},
-			error : function() {
-				console.log("fail");
+			error : function(json) {
+				var res = JSON.parse(json)
+				console.log(res.result);
+				console.log("error_upload_logs");
 			}
 
-		})
+		});
 	}
+	
+	function conveySocket(path) {
+		let isUse = false;
+		if($("input[name=useDefdict]:checked").attr('id') == "useDefdictYes") {
+			isUse = true;
+		}
+		
+		var data = {
+				"type" : "predict",
+				"isUse": isUse,
+				"path" : path,
+				"model": "konlpy"
+		}
+		
+		$.ajax({
+			type        : "post",
+			enctype     : "multipart/form-data",
+			url         : "/conveySocket.do",
+			data        : JSON.stringify(data),
+			datatype    : "text",
+			processData : false,
+			contentType : "application/json",
+			cache       : false,
+			success     : function(res) {
+				console.log(res);
+				console.log("success_convey_logs");
+			},
+			error       : function(res) {
+				console.log(res);
+				console.log("fail_convey_logs");
+				
+			}
+		});
+	}
+	
 
 })

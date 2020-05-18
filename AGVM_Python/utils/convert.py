@@ -14,7 +14,7 @@ from collections import defaultdict
 from konlpy.tag import Okt
 from utils.option import Options
 from model.predict import predict
-from utils.util import sumStrList, getSpacedKor, mkdirs_, delEscapeChar
+from utils.util import sumStrList, getSpacedKor, mkdirs_, delEscapeChar, changeDirSperacte
 from utils.translate_define import translate,define_word
 
 opt = Options()
@@ -76,7 +76,7 @@ def select_spacing(input_,type_='konlpy') :
     elif type_.lower() == 'spacing' :
         return predict(input_)
     else :
-        raise print('we have only knolpy, spacing models')
+        raise print('we have only konlpy, spacing models')
 
 
 # make abbreviation, return txt(upper)
@@ -204,26 +204,36 @@ def dict2sheet(path, input_, dict_):
 
 
 def convert_File(input_path, output_path, isUseDict=True, useType='konlpy'):
+    isSuccess = True
+    try :
 
-    input_ = pd.read_excel(input_path, sheet_name='용어')
-    if output_path[input_path.rfind('/'):].find('.') == -1:
-        output_path += input_path[input_path.rfind('/'):]
-    # np.NaN is float type
-    input_ = input_.fillna("")
+        input_path = changeDirSperacte(input_path)
+        output_path = changeDirSperacte(output_path)
 
-    # memory on dictionary
-    dict_ = getWordDict(input_path)
+        input_ = pd.read_excel(input_path, sheet_name='용어')
+        if output_path[input_path.rfind('/'):].find('.') == -1:
+            mkdirs_(output_path)
+            output_path += input_path[input_path.rfind('/'):]
+        # cause np.NaN is float type, change to string type
+        input_ = input_.fillna("")
 
-    if isUseDict:
-        defDict = getDefDict(opt.base_dictionary_path)
-        dict_ = merge_defaultdicts(dict_, defDict)
+        # memory on dictionary
+        dict_ = getWordDict(input_path)
 
-    for idx in input_['약어명'].isnull().index:
-        spaced_kor = select_spacing(input_.at[idx, '용어명'],useType)
-        abr, eng, dict_ = convert_kor2abr(spaced_kor, dict_)
-        input_.at[idx, '약어명'] = abr
-        input_.at[idx, '한글단어별'] = getSpacedKor(spaced_kor)
-        input_.at[idx, '영문단어별'] = eng
+        if isUseDict:
+            defDict = getDefDict(opt.base_dictionary_path)
+            dict_ = merge_defaultdicts(dict_, defDict)
 
-    # input, dict_to_sheet
-    dict2sheet(output_path, input_, dict_)
+        for idx in input_['약어명'].isnull().index:
+            spaced_kor = select_spacing(input_.at[idx, '용어명'], useType)
+            abr, eng, dict_ = convert_kor2abr(spaced_kor, dict_)
+            input_.at[idx, '약어명'] = abr
+            input_.at[idx, '한글단어별'] = getSpacedKor(spaced_kor)
+            input_.at[idx, '영문단어별'] = eng
+
+        # input, dict_to_sheet
+        dict2sheet(output_path, input_, dict_)
+    except :
+        isSuccess = False
+
+    return isSuccess, output_path
