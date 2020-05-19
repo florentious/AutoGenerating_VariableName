@@ -17,6 +17,14 @@
 	crossorigin="anonymous">
 
 <title>AutoGenerating VariableName</title>
+
+<style>
+	img {
+		max-width : 150%;
+		height: auto !important;
+	}
+</style>
+
 </head>
 <body>
 	<!-- navbar start -->
@@ -122,9 +130,9 @@
 					<h5> : </h5>
 				</div>
 				<div class="col-sm-6">
-					<h5>${explain } </h5>
+					<img src="${explain}" style="width:1300px" >
 					<br>
-					<h5><a href="/templateDownload.do">Template Download</a></h5>
+					<h5><a class="btn btn-secondary" href="/templateDownload.do">Template</a></h5>
 				</div>
 			</div>
 			
@@ -133,6 +141,17 @@
 		<br>
 		<br>
 		<br>
+		<div class="col-sm-12 row" id="loadBar" style="display:none">
+			<div class="col-sm-3"></div>
+			<div class="col-sm-3">
+				<img src="${load }" style="width:200px;">
+			</div>
+			<div class="col-sm-6">
+				<br><br>
+				<h5>로딩중입니다.<br><br> 파이썬의 연산은 꽤나 깁니다.</h5>
+			</div>
+			
+		</div>
 
 
 		<!-- output -->

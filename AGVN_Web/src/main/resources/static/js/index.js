@@ -23,6 +23,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 		if ($("#checkFile").val() == "yes") {
+			$("#loadBar").show();
 			fileUpload();
 			
 		} else {
@@ -49,8 +50,6 @@ $(document).ready(function() {
 			cache       : false,
 			success     : function(json) {
 				var res = JSON.parse(json)
-				console.log(res.result);
-				console.log(res.path);
 				console.log("success_upload_logs");
 				// if success -> socket(java to python)
 				conveySocket(res.path);
@@ -94,6 +93,7 @@ $(document).ready(function() {
 			cache       : false,
 			success     : function(json) {
 				if(json.status) {
+					$("#loadBar").hide();
 					$("#outputName").val(json.output_path);
 					console.log("success_convey_logs");
 					$("#outputDiv").show();					
@@ -108,35 +108,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	/*
-	// fileDownload ajax
-	function fileDownload() {
-		let file_path = $("#outputName").val();
-		
-		$.ajax({
-			type        : "post",
-			enctype     : "multipart/form-data",
-			url         : "/fileDownload.do",
-			data        : file_path,
-			datatype    : "text",
-			processData : false,
-			contentType : "application/json",
-			cache       : false,
-			success     : function(json) {
-								
-				$("#outputName").val(json.output_path);
-				console.log("success_convey_logs");
-				$("#outputDiv").show();
-				
-				
-			},
-			error       : function(json) {
-				console.log("fail_convey_logs");
-				
-			}
-		});
-	}
-	*/
+	
 	
 
 })

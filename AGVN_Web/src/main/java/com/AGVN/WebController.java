@@ -32,7 +32,8 @@ public class WebController {
 	
 	@RequestMapping("/")
 	public String jspPage(Model model) {
-		model.addAttribute("explain", "Explain Template");
+		model.addAttribute("explain", "img/explain.jpg");
+		model.addAttribute("load","img/load.gif");
 		return "index";
 	}
 	
