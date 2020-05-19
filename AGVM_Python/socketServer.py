@@ -23,20 +23,21 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
 
         inObj = json.loads(text)
 
-        # pprint(inObj['isUse'])
-
         # json_data : isUse, model, path, type
         # for key in json.loads(text):
         #     pprint(json.loads(text)[key])
+        pprint(inObj['path'])
 
         isSuccess, output_path = convert_File(input_path=py2java_path+inObj['path'], output_path=py2java_path+'data/convert', isUseDict=inObj['isUse'],useType=inObj['model'])
 
-        output = {
+        outObj = {
             "status": isSuccess,
             "output_path": output_path
         }
 
-        self.request.send(bytes(json.dumps(output), 'UTF-8'))
+        pprint(outObj)
+
+        self.request.send(bytes(json.dumps(outObj), 'UTF-8'))
         self.request.close()
 
 

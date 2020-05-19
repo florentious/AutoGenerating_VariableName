@@ -1,20 +1,21 @@
 $(document).ready(function() {
 	
 	// File Upload Listener Function
+	// if input other files(ex. txt..), can't use Convert btn
 	$("#fileInput").on('change',function() {
 
-				let ext = $(this).val().split('.').pop().toLowerCase();
-				$("#fileInputLabel").text($("#fileInput").val())
+		let ext = $(this).val().split('.').pop().toLowerCase();
+		$("#fileInputLabel").text($("#fileInput").val().split('\\').pop());
 
-				if ($.inArray(ext, [ 'xlsx', 'xls' ]) == -1) {
-					$("#fileInputMsg").html("<span class='text-danger'>파일타입을 확인해주세요</span>");
-					$("#checkFile").val("no");
-				} else {
-					$("#fileInputMsg").html("<span class='text-success'>사용할 수 있습니다.</span>");
-					$("#checkFile").val("yes");
-				}
+		if ($.inArray(ext, [ 'xlsx', 'xls' ]) == -1) {
+			$("#fileInputMsg").html("<span class='text-danger'>파일타입을 확인해주세요</span>");
+			$("#checkFile").val("no");
+		} else {
+			$("#fileInputMsg").html("<span class='text-success'>사용할 수 있습니다.</span>");
+			$("#checkFile").val("yes");
+		}
 
-			});
+	});
 
 	// Upload & Convert Button event(before check file)
 	$("#convert").click(function(event) {
@@ -23,14 +24,16 @@ $(document).ready(function() {
 		
 		if ($("#checkFile").val() == "yes") {
 			fileUpload();
-			//conveySocket('upload/input/template.xlsx');
-
-		} else {
 			
-
+		} else {
+		
 		}
-	})
+	});
 	
+	
+	
+	
+	// file Upload
 	function fileUpload() {
 		var form = $("#uploadForm")[0];
 		var data = new FormData(form);
@@ -60,19 +63,24 @@ $(document).ready(function() {
 			}
 
 		});
-	}
+	};
 	
+	// connect python TCP/IP Socket Server
 	function conveySocket(path) {
 		let isUse = false;
+		let modelName = 'konlpy';
 		if($("input[name=useDefdict]:checked").attr('id') == "useDefdictYes") {
 			isUse = true;
+		}
+		if($("input[name=useModel]:checked").attr('id') == "useModelSP") {
+			modelName = 'self_product'
 		}
 		
 		var data = {
 				"type" : "predict",
 				"isUse": isUse,
 				"path" : path,
-				"model": "konlpy"
+				"model": modelName
 		}
 		
 		$.ajax({
@@ -84,17 +92,51 @@ $(document).ready(function() {
 			processData : false,
 			contentType : "application/json",
 			cache       : false,
-			success     : function(res) {
-				console.log(res);
-				console.log("success_convey_logs");
+			success     : function(json) {
+				if(json.status) {
+					$("#outputName").val(json.output_path);
+					console.log("success_convey_logs");
+					$("#outputDiv").show();					
+				} else {
+					console.log("fail_python_logs");
+				}
+				
 			},
-			error       : function(res) {
-				console.log(res);
+			error       : function(json) {
 				console.log("fail_convey_logs");
 				
 			}
 		});
 	}
+	/*
+	// fileDownload ajax
+	function fileDownload() {
+		let file_path = $("#outputName").val();
+		
+		$.ajax({
+			type        : "post",
+			enctype     : "multipart/form-data",
+			url         : "/fileDownload.do",
+			data        : file_path,
+			datatype    : "text",
+			processData : false,
+			contentType : "application/json",
+			cache       : false,
+			success     : function(json) {
+								
+				$("#outputName").val(json.output_path);
+				console.log("success_convey_logs");
+				$("#outputDiv").show();
+				
+				
+			},
+			error       : function(json) {
+				console.log("fail_convey_logs");
+				
+			}
+		});
+	}
+	*/
 	
 
 })

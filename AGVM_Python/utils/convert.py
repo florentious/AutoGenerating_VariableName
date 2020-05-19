@@ -69,14 +69,14 @@ def getNouns(input_):
 
     return rl
 
-# select_spacing_model : konlpy, spacing(DL model)
+# select_spacing_model : konlpy, self_product(DL model)
 def select_spacing(input_,type_='konlpy') :
     if type_.lower() == 'konlpy' :
         return getNouns(input_)
-    elif type_.lower() == 'spacing' :
+    elif type_.lower() == 'self_product' :
         return predict(input_)
     else :
-        raise print('we have only konlpy, spacing models')
+        raise print('we have only konlpy, self_product models')
 
 
 # make abbreviation, return txt(upper)
@@ -233,7 +233,8 @@ def convert_File(input_path, output_path, isUseDict=True, useType='konlpy'):
 
         # input, dict_to_sheet
         dict2sheet(output_path, input_, dict_)
-    except :
+    except Exception as ex:
+        print('error', ex)
         isSuccess = False
 
     return isSuccess, output_path

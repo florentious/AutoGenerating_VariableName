@@ -40,55 +40,130 @@
 	<div class="container">
 
 		<div class="col-sm-12">
+			<br>
 			<h3>Input Excel Files</h3>
 			<br>
 			<!-- isUse default dictionary -->
 			<div class="col-sm-12 row">
-				<h5>Use Default Dictionary :</h5>
-				<div class="btn-group btn-group-toggle" data-toggle="buttons">
-					<label class="btn btn-secondary active"> 
-						<input type="radio" name="useDefdict" id="useDefdictYes" checked>Yes
-					</label> 
-					<label class="btn btn-secondary"> 
-						<input type="radio" name="useDefdict" id="useDefdictNo"> No
-					</label>
+				<div class="col-sm-5">
+					<h5>Use Default Dictionary </h5>
+				</div>
+				<div class="col-sm-1">
+					<h5> : </h5>
+				</div>
+				
+				<div class="col-sm-6">
+					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<label class="btn btn-secondary active"> 
+							<input type="radio" name="useDefdict" id="useDefdictYes" checked>Yes
+						</label> 
+						<label class="btn btn-secondary"> 
+							<input type="radio" name="useDefdict" id="useDefdictNo"> No
+						</label>
+					</div>				
+				</div>
+			</div>
+			<br>
+			<!-- how use spacing model -->
+			<div class="col-sm-12 row">
+				<div class="col-sm-5">
+					<h5>Use Spacing Model </h5>
+				</div>
+				<div class="col-sm-1">
+					<h5> : </h5>
+				</div>
+				<div class="col-sm-6">
+					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<label class="btn btn-secondary active"> 
+							<input type="radio" name="useModel" id="useModelKonlpy" checked>Konlpy
+						</label> 
+						<label class="btn btn-secondary"> 
+							<input type="radio" name="useModel" id="useModelSP"> Self-Product
+						</label>
+					</div>
 				</div>
 			</div>
 			<!-- blank count -->
 			<br>
 
 			<!-- File-upLoad -->
-			
-			<div class="input-group mb-3">
-				<div class="custom-file">
-					<form method="post" enctype="multipart/form-data" id="uploadForm">
-						<input type="file" class="custom-file-input" id="fileInput" name="fileInput">
-						<label class="custom-file-label" for="fileInput" id="fileInputLabel">Choose file</label>
-					</form> 
+			<div class="col-sm-12 row">
+				<div class="col-sm-5">				
+					<h5>Input Data <br>(Press Convert Btn) </h5>
 				</div>
-				<div class="input-group-append">
-					<span type="button" class="input-group-text" id="convert">Convert</span>
+				<div class="col-sm-1">
+					<h5> : </h5>
+				</div>
+				<div class="col-sm-6">
+					<div class="input-group mb-3">
+						<div class="custom-file">
+							<form method="post" enctype="multipart/form-data" id="uploadForm">
+								<input type="file" class="custom-file-input" id="fileInput" name="fileInput">
+								<label class="custom-file-label" for="fileInput" id="fileInputLabel">Choose file</label>
+							</form> 
+						</div>
+						<div class="input-group-append">
+							<span type="button" class="input-group-text" id="convert">Convert</span>
+						</div>
+					</div>
+					<div id="fileInputMsg"></div>
+					<input type="hidden" name="checkFile" id="checkFile" value="no" />				
+				</div>
+			
+			</div>
+			<br>
+			<!-- Explain Template -->
+			<!-- File-upLoad -->
+			<div class="col-sm-12 row">
+				<div class="col-sm-5">				
+					<h5>Explain Upload Files </h5>
+				</div>
+				<div class="col-sm-1">
+					<h5> : </h5>
+				</div>
+				<div class="col-sm-6">
+					<h5>${explain } </h5>
+					<br>
+					<h5><a href="/templateDownload.do">Template Download</a></h5>
 				</div>
 			</div>
-			<div id="fileInputMsg"></div>
-			<h5>${explain }</h5>
-			<input type="hidden" name="checkFile" id="checkFile" value="no" />
 			
 		</div>
 
+		<br>
 		<br>
 		<br>
 
 
 		<!-- output -->
-		<div class="col-sm-12 row">
+		<div class="col-sm-12" id="outputDiv" style="display:none">
 			<h3>Output Excel File</h3>
-			<!-- Need to ajax -->
+			<br>
+			<!-- Need to ajax change disable -->
+			
+			<div class="col-sm-12 row">
+				<div class="col-sm-5">
+					<h5>Generated File Download</h5>
+				</div>
+				<div class="col-sm-1">
+					<h5> : </h5>
+				</div>
+				<div class="col-sm-6">					
+					<form method="post" enctype="multipart/form-data" id="downloadForm" action="fileDownload.do">
+						<input type="hidden" name="outputName" id="outputName" value="" />							
+						<input type="submit" class="btn btn-secondary" id="downloadFile" value="Download">
+					</form>
+				</div>
+			</div>				
+			
 		</div>
+		
 	</div>
 
 
 	<!-- main end -->
+	
+	
 	<!-- footer -->
 
 
@@ -107,6 +182,7 @@
 
 	<!-- jquery.js // Need to use Ajax -->
 	<script src="/js/jquery-3.5.1.js"></script>
+	<!-- index.jsp -> script code -->
 	<script src="/js/index.js"></script>
 </body>
 </html>

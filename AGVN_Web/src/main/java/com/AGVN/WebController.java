@@ -2,7 +2,11 @@ package com.AGVN;
 
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,6 +15,7 @@ import java.util.HashMap;
 import com.google.gson.JsonObject;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,14 +76,13 @@ public class WebController {
 		
 	}
 	
+	// send JsonObject to python
 	@RequestMapping(value="/conveySocket.do", method = RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public String conveySocket(@RequestBody HashMap<String, Object> map) {
 		
 		JsonObject obj = null;
-		
-//		System.out.println(request);
-		
+				
 		boolean isUse = (Boolean) map.get("isUse");
 		String  path  = (String)  map.get("path");
 		String  type  = (String)  map.get("type");
@@ -87,17 +91,150 @@ public class WebController {
 		SocketClient socket = new SocketClient("localhost",9898);
 		obj = socket.run(type, isUse, path, model);
 		
-		/*
-		obj = new JsonObject();
-		obj.addProperty("type",  type);
-		obj.addProperty("path",  path);
-		obj.addProperty("isUse", isUse);
-		*/
-		
-		
-		System.out.println(obj.toString());
+//		System.out.println(obj.toString());
 		
 		return obj.toString();
+		
+	}
+	
+	
+	// download template file
+	@RequestMapping(value="/templateDownload.do")
+	public void templateDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// use korean
+		request.setCharacterEncoding("utf-8");
+		
+		String       fileUrl  = "data/base/";
+		String       fileName = "template.xlsx"; 
+		InputStream  is       = null;
+		OutputStream os       = null;
+		File         file     = null;
+		String       client   = "";
+		boolean      isHave   = false;
+		
+		// Read file, and stream
+		try {
+			file = new File(fileUrl, fileName);
+			is   = new FileInputStream(file);
+		} catch(FileNotFoundException fe){
+			fe.printStackTrace();
+			isHave = true;
+		}
+		
+		// 접속환경(ex, IE 등등)별 처리하기 위해서 
+		client = request.getHeader("User-Agent");
+		
+		// Download Header Setting
+		response.reset();
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Description", "JSP Generated Data");
+		
+		// Check File Found
+		if(!isHave) {
+			//IE
+			if (client.indexOf("MSIE") != -1) {
+				response.setHeader("Content-Disposition", "attachment; filename=\""
+						+ java.net.URLEncoder.encode(fileName, "utf-8").replaceAll("\\+", "\\ ")+ "\"");
+				
+			//IE 11이상
+			} else if (client.indexOf("Trident") != -1) {
+                response.setHeader("Content-Disposition", "attachment; filename=\""
+                        + java.net.URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "\\ ") + "\"");
+            } else {
+            	// 한글파일명인 경우            	
+            	response.setHeader("Content-Disposition",
+                        "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO8859_1") + "\"");
+                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
+            }
+			// stream에 올라와있는것 다운로드 시켜줌
+			response.setHeader("Content-Length", "" + file.length());
+            os = response.getOutputStream();
+            byte b[] = new byte[(int) file.length()];
+            int leng = 0;
+            while ((leng = is.read(b)) > 0) {
+                os.write(b, 0, leng);
+            }
+
+
+		} else {
+			response.setContentType("text/html;charset=UTF-8");
+			System.out.println("<script langquage='javascript'>alert('파일을 찾을수 없습니다.');</script>");
+			
+		}
+		
+		is.close();
+		os.close();
+		
+	}
+	
+	
+	// download output file
+	@RequestMapping(value="/fileDownload.do")
+	public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// use korean
+		request.setCharacterEncoding("utf-8");
+		String path = request.getParameter("outputName");
+		
+		String       fileUrl  = path.substring(0,path.lastIndexOf('/')+1);
+		String       fileName = path.substring(path.lastIndexOf('/')+1,path.length());
+		InputStream  is       = null;
+		OutputStream os       = null;
+		File         file     = null;
+		String       client   = "";
+		boolean      isHave   = false;
+		
+		// Read file, and stream
+		try {
+			file = new File(fileUrl, fileName);
+			is   = new FileInputStream(file);
+		} catch(FileNotFoundException fe){
+			fe.printStackTrace();
+			isHave = true;
+		}
+		
+		// 접속환경(ex, IE 등등)별 처리하기 위해서 
+		client = request.getHeader("User-Agent");
+		
+		// Download Header Setting
+		response.reset();
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Description", "JSP Generated Data");
+		
+		// Check File Found
+		if(!isHave) {
+			//IE
+			if (client.indexOf("MSIE") != -1) {
+				response.setHeader("Content-Disposition", "attachment; filename=\""
+						+ java.net.URLEncoder.encode(fileName, "utf-8").replaceAll("\\+", "\\ ")+ "\"");
+				
+				//IE 11이상
+			} else if (client.indexOf("Trident") != -1) {
+				response.setHeader("Content-Disposition", "attachment; filename=\""
+						+ java.net.URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "\\ ") + "\"");
+			} else {
+				// 한글파일명인 경우            	
+				response.setHeader("Content-Disposition",
+						"attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO8859_1") + "\"");
+				response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
+			}
+			// stream에 올라와있는것 다운로드 시켜줌
+			response.setHeader("Content-Length", "" + file.length());
+			os = response.getOutputStream();
+			byte b[] = new byte[(int) file.length()];
+			int leng = 0;
+			while ((leng = is.read(b)) > 0) {
+				os.write(b, 0, leng);
+			}
+			
+			
+		} else {
+			response.setContentType("text/html;charset=UTF-8");
+			System.out.println("<script langquage='javascript'>alert('파일을 찾을수 없습니다.');</script>");
+			
+		}
+		
+		is.close();
+		os.close();
 		
 	}
 	
