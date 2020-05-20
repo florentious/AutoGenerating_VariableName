@@ -33,7 +33,7 @@ public class WebController {
 	@RequestMapping("/")
 	public String jspPage(Model model) {
 		model.addAttribute("explain", "img/explain.jpg");
-		model.addAttribute("load","img/load.gif");
+		model.addAttribute("load","img/load_spiner2.gif");
 		return "index";
 	}
 	

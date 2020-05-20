@@ -70,11 +70,11 @@ def getNouns(input_):
     return rl
 
 # select_spacing_model : konlpy, self_product(DL model)
-def select_spacing(input_,type_='konlpy') :
+def select_spacing(input_, model, type_='konlpy') :
     if type_.lower() == 'konlpy' :
         return getNouns(input_)
     elif type_.lower() == 'self_product' :
-        return predict(input_)
+        return predict(input_, model=model)
     else :
         raise print('we have only konlpy, self_product models')
 
@@ -120,12 +120,15 @@ def convert_abbr(eng, kor, dict_):
     # abbreviate, isInDict
 
     tmp_abr = abbreviate(eng)
+    if(len(tmp_abr) < 3) :
+        if not isInDict(tmp_abr, dict_):
+            dict_[kor] = [eng, tmp_abr.upper(), define_word(kor)]
+            return tmp_abr.upper(), dict_
 
     for idx in range(3, len(tmp_abr) + 1):
         if not isInDict(tmp_abr[:idx], dict_):
             dict_[kor] = [eng, tmp_abr[:idx].upper(), define_word(kor)]
             return tmp_abr[:idx].upper(), dict_
-
 
     idx = 3
     tmp = delEscapeChar(eng).upper()
@@ -147,28 +150,46 @@ def convert_kor2abr(input_, dict_):
     tmp_spacedEng = ''
 
     if input_ != []:
-        for idx in range(len(input_), 0, -1):
-            tmpTxt = sumStrList(input_[:idx])
-            if tmpTxt in dict_.keys():
-                tmp_spacedEng += dict_[tmpTxt][0] + '_'
-                tmp_spacedAbr += dict_[tmpTxt][1] + '_'
-                if idx != len(input_):
-                    sub_abr, sub_eng, dict_ = convert_kor2abr(input_[idx:], dict_)
-                    tmp_spacedAbr += sub_abr
-                    tmp_spacedEng += sub_eng
-                break
+        # dictionary가 비어있는 경우 첫번째부터 강제로 채워주는것 없으면 무한으로 돌고있음
+        if dict_ == {} :
+            tmpTxt = input_[0]
+            tmp_eng = translate(tmpTxt)
 
-            if idx == 1:
-                tmp_eng = translate(tmpTxt)
-                # 약어변경 함수(convert_abbr)
-                tmp_abr, dict_ = convert_abbr(tmp_eng, tmpTxt, dict_)
-                tmp_spacedAbr += tmp_abr + '_'
-                tmp_spacedEng += tmp_eng.upper() + '_'
+            # 약어변경 함수(convert_abbr)
+            tmp_abr, dict_ = convert_abbr(tmp_eng, tmpTxt, dict_)
+            tmp_spacedAbr += tmp_abr + '_'
+            tmp_spacedEng += tmp_eng.upper() + '_'
 
-                if idx != len(input_):
-                    sub_abr, sub_eng, dict_ = convert_kor2abr(input_[idx:], dict_)
-                    tmp_spacedAbr += sub_abr
-                    tmp_spacedEng += sub_eng
+            idx = 1
+            if idx != len(input_):
+                sub_abr, sub_eng, dict_ = convert_kor2abr(input_[idx:], dict_)
+                tmp_spacedAbr += sub_abr
+                tmp_spacedEng += sub_eng
+
+        # dictionary가 비어있지 않는 경우
+        else :
+            for idx in range(len(input_), 0, -1):
+                tmpTxt = sumStrList(input_[:idx])
+                if tmpTxt in dict_.keys():
+                    tmp_spacedEng += dict_[tmpTxt][0] + '_'
+                    tmp_spacedAbr += dict_[tmpTxt][1] + '_'
+                    if idx != len(input_):
+                        sub_abr, sub_eng, dict_ = convert_kor2abr(input_[idx:], dict_)
+                        tmp_spacedAbr += sub_abr
+                        tmp_spacedEng += sub_eng
+                    break
+
+                if idx == 1:
+                    tmp_eng = translate(tmpTxt)
+                    # 약어변경 함수(convert_abbr)
+                    tmp_abr, dict_ = convert_abbr(tmp_eng, tmpTxt, dict_)
+                    tmp_spacedAbr += tmp_abr + '_'
+                    tmp_spacedEng += tmp_eng.upper() + '_'
+
+                    if idx != len(input_):
+                        sub_abr, sub_eng, dict_ = convert_kor2abr(input_[idx:], dict_)
+                        tmp_spacedAbr += sub_abr
+                        tmp_spacedEng += sub_eng
 
         if tmp_spacedAbr[-1] == '_':
             tmp_spacedAbr = tmp_spacedAbr[:-1]
@@ -203,10 +224,11 @@ def dict2sheet(path, input_, dict_):
 
 
 
-def convert_File(input_path, output_path, isUseDict=True, useType='konlpy'):
+def convert_File(input_path, output_path, model, isUseDict=True, useType='konlpy'):
+    print('Start Converting')
     isSuccess = True
     try :
-
+        # input path '\\' to '/'
         input_path = changeDirSperacte(input_path)
         output_path = changeDirSperacte(output_path)
 
@@ -225,7 +247,7 @@ def convert_File(input_path, output_path, isUseDict=True, useType='konlpy'):
             dict_ = merge_defaultdicts(dict_, defDict)
 
         for idx in input_['약어명'].isnull().index:
-            spaced_kor = select_spacing(input_.at[idx, '용어명'], useType)
+            spaced_kor = select_spacing(input_.at[idx, '용어명'], model=model, type_=useType)
             abr, eng, dict_ = convert_kor2abr(spaced_kor, dict_)
             input_.at[idx, '약어명'] = abr
             input_.at[idx, '한글단어별'] = getSpacedKor(spaced_kor)
@@ -237,4 +259,5 @@ def convert_File(input_path, output_path, isUseDict=True, useType='konlpy'):
         print('error', ex)
         isSuccess = False
 
-    return isSuccess, output_path
+    print('End Converting')
+    return (isSuccess, output_path)

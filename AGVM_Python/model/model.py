@@ -14,7 +14,10 @@ modeling
 import mxnet as mx
 from mxnet import gluon
 from mxnet.gluon import nn, rnn
+from utils.option import Options
+from utils.util import getCtx, getModelWeights, load_embedding
 
+opt = Options()
 
 
 class auto_spacing(gluon.HybridBlock) :
@@ -74,3 +77,12 @@ def model_init(n_hidden ,vocab_size, embed_dim, max_seq_length, ctx, embed_weigh
     loss = gluon.loss.SigmoidBinaryCrossEntropyLoss(from_sigmoid=True)
     loss.hybridize(static_alloc=True)
     return (model, loss, trainer)
+
+def model_load() :
+    weights = load_embedding(opt.w2idx_embed)
+
+    model = auto_spacing(opt.n_hidden, weights.shape[0], weights.shape[1], opt.max_seq_len)
+    model.load_parameters(getModelWeights(path=opt.weight_path), ctx=getCtx(opt.gpu_count))
+    print('model loaded..')
+
+    return model

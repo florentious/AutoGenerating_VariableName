@@ -59,6 +59,8 @@ $(document).ready(function() {
 				var res = JSON.parse(json)
 				console.log(res.result);
 				console.log("error_upload_logs");
+				$("#loadBar").hide();
+				$("#errorDiv").show();
 			}
 
 		});
@@ -103,7 +105,9 @@ $(document).ready(function() {
 				
 			},
 			error       : function(json) {
+				$("#loadBar").hide();
 				console.log("fail_convey_logs");
+				$("#errorDiv").show();
 				
 			}
 		});

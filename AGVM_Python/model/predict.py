@@ -69,11 +69,10 @@ class pred_spacing:
         return subs
 
 
-def predict(text) :
-    model = auto_spacing(n_hidden, vocab_size, embed_dim, max_seq_len)
-    model.load_parameters(getModelWeights(path=opt.weight_path), ctx=ctx)
-    predictor = pred_spacing(model, w2idx)
 
+def predict(text, model) :
+
+    predictor = pred_spacing(model, w2idx)
     tmp = predictor.get_spaced_sent(text).split(' ')
 
     return list(filter(lambda x : x != '', tmp))
