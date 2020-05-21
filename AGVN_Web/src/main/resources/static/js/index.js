@@ -23,6 +23,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 		if ($("#checkFile").val() == "yes") {
+			$("#outputDiv").hide();	
 			$("#loadBar").show();
 			fileUpload();
 			
@@ -30,8 +31,6 @@ $(document).ready(function() {
 		
 		}
 	});
-	
-	
 	
 	
 	// file Upload

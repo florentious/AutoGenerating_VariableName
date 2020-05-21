@@ -57,7 +57,10 @@ public class WebController {
 			dir.mkdirs();
 		}
 		
-		Path path = Paths.get(UPLOAD_DIR,file.getOriginalFilename());
+		String fileName = file.getOriginalFilename();
+		String newFileName = fileName.substring(0,fileName.lastIndexOf("."))+"_"+Long.toString(System.currentTimeMillis())+fileName.substring(fileName.lastIndexOf("."));
+
+		Path path = Paths.get(UPLOAD_DIR,newFileName);
 		
 		try {
 			
