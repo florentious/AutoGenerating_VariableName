@@ -25,11 +25,11 @@ $(document).ready(function() {
 		if ($("#checkFile").val() == "yes") {
 			$("#outputDiv").hide();	
 			$("#loadBar").show();
+			// Prevent Repetitively Click
+			$("#checkFile").val("no");
 			fileUpload();
 			
-		} else {
-		
-		}
+		} 
 	});
 	
 	

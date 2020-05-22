@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,7 +30,7 @@
 <body>
 	<!-- navbar start -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light"> 
-		<a class="navbar-brand" href="#">AutoGenerating VariableName</a>
+		<a class="navbar-brand" href="/">AutoGenerating VariableName</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarNav" aria-controls="navbarNav"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -40,15 +39,17 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item active">
-					<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+					<a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Board</a>
+					<a class="nav-link" href="wordIndex">Board</a>
 				</li>
 			</ul>
 		</div>
 	</nav>
 	<!-- navbar end -->
+
+	<!-- Header -->
 
 	<div class="container">
 
@@ -218,7 +219,7 @@
 	<!-- jquery.js // Need to use Ajax -->
 	<script src="/js/jquery-3.5.1.js"></script>
 	<!-- index.jsp -> script code -->
-	<script src="/js/index.js"></script>
+	<script src="/js/personal.js"></script>
 </body>
 </html>
 

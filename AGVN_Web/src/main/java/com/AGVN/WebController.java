@@ -30,11 +30,19 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 @Controller
 public class WebController {
 	
+	// Main Page
 	@RequestMapping("/")
 	public String jspPage(Model model) {
 		model.addAttribute("explain", "img/explain.jpg");
 		model.addAttribute("load","img/load_spiner2.gif");
-		return "index";
+		return "main";
+	}
+	
+	// wordIndex Page
+	@RequestMapping("/wordIndex")
+	public String jspWordIndexPage(Model model) {
+		
+		return "wordIndex";
 	}
 	
 	// File Upload Ajax
@@ -57,6 +65,8 @@ public class WebController {
 			dir.mkdirs();
 		}
 		
+		// if upload, prevent duplication
+		// give system time
 		String fileName = file.getOriginalFilename();
 		String newFileName = fileName.substring(0,fileName.lastIndexOf("."))+"_"+Long.toString(System.currentTimeMillis())+fileName.substring(fileName.lastIndexOf("."));
 
@@ -204,21 +214,24 @@ public class WebController {
 		response.setContentType("application/octet-stream");
 		response.setHeader("Content-Description", "JSP Generated Data");
 		
+		// Made Original fileName
+		String originFileName = fileName.substring(0,fileName.lastIndexOf('_'))+fileName.substring(fileName.lastIndexOf('.'));
+		
 		// Check File Found
 		if(!isHave) {
 			//IE
 			if (client.indexOf("MSIE") != -1) {
 				response.setHeader("Content-Disposition", "attachment; filename=\""
-						+ java.net.URLEncoder.encode(fileName, "utf-8").replaceAll("\\+", "\\ ")+ "\"");
+						+ java.net.URLEncoder.encode(originFileName, "utf-8").replaceAll("\\+", "\\ ")+ "\"");
 				
 				//IE 11이상
 			} else if (client.indexOf("Trident") != -1) {
 				response.setHeader("Content-Disposition", "attachment; filename=\""
-						+ java.net.URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "\\ ") + "\"");
+						+ java.net.URLEncoder.encode(originFileName, "UTF-8").replaceAll("\\+", "\\ ") + "\"");
 			} else {
 				// 한글파일명인 경우            	
 				response.setHeader("Content-Disposition",
-						"attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO8859_1") + "\"");
+						"attachment; filename=\"" + new String(originFileName.getBytes("UTF-8"), "ISO8859_1") + "\"");
 				response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
 			}
 			// stream에 올라와있는것 다운로드 시켜줌

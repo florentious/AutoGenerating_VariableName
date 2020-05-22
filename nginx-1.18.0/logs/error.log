@@ -1,0 +1,3 @@
+2020/05/22 09:15:37 [emerg] 15356#12716: invalid URL prefix in c:\dev\workspace\AutoGenerating_VariableName\nginx-1.18.0/conf/nginx.conf:44
+2020/05/22 09:15:42 [emerg] 12772#7220: invalid URL prefix in c:\dev\workspace\AutoGenerating_VariableName\nginx-1.18.0/conf/nginx.conf:44
+2020/05/22 09:16:44 [notice] 15188#11796: signal process started
