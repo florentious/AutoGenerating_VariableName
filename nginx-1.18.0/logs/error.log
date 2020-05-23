@@ -1,3 +1,8 @@
 2020/05/22 09:15:37 [emerg] 15356#12716: invalid URL prefix in c:\dev\workspace\AutoGenerating_VariableName\nginx-1.18.0/conf/nginx.conf:44
 2020/05/22 09:15:42 [emerg] 12772#7220: invalid URL prefix in c:\dev\workspace\AutoGenerating_VariableName\nginx-1.18.0/conf/nginx.conf:44
 2020/05/22 09:16:44 [notice] 15188#11796: signal process started
+2020/05/23 16:04:26 [error] 3348#14512: *77 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "POST /fileupload.do HTTP/1.1", upstream: "http://127.0.0.1:8080/fileupload.do", host: "localhost", referrer: "http://localhost/"
+2020/05/23 16:04:28 [error] 3348#14512: *77 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "POST /fileupload.do HTTP/1.1", upstream: "http://[::1]:8080/fileupload.do", host: "localhost", referrer: "http://localhost/"
+2020/05/23 16:04:36 [error] 3348#14512: *77 no live upstreams while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "http://localhost/", host: "localhost"
+2020/05/23 16:04:36 [error] 3348#14512: *77 no live upstreams while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", upstream: "http://localhost/favicon.ico", host: "localhost", referrer: "http://localhost/"
+2020/05/23 18:17:18 [notice] 16096#6876: signal process started

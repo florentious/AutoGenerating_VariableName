@@ -166,7 +166,7 @@
 			<div class="col-sm-3"></div>
 			<div class="col-sm-6">
 				<br><br>
-				<h5> 에러났습니다.<br> 재시도 부탁드립니다. </h5>
+				<h5> 에러났습니다.<br> 컬럼이름 등을 확인해 재시도 부탁드립니다. </h5>
 			</div>
 			
 		</div>

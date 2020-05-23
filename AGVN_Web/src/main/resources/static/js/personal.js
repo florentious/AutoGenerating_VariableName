@@ -23,7 +23,8 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 		if ($("#checkFile").val() == "yes") {
-			$("#outputDiv").hide();	
+			$("#outputDiv").hide();
+			$("#errorDiv").hide();
 			$("#loadBar").show();
 			// Prevent Repetitively Click
 			$("#checkFile").val("no");
