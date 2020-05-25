@@ -1,0 +1,27 @@
+mybatis:
+  mapper-locations		: mapper/*.xml
+  
+server:
+  port					: 8080
+  
+spring:
+  datasource:
+    driver-class-name	: org.mariadb.jdbc.Driver
+    url					: jdbc:mariadb://localhost:3306/AGVN?
+    password			: acorn12
+    username			: acorn12
+  mvc:
+    view:
+      prefix			: /WEB-INF/jsp/
+      suffix			: .jsp
+  servlet:
+    multipart:
+      max-file-size		: 30MB
+      max-request-size	: 30MB
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    
+
+
