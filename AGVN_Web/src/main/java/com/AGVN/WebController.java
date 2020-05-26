@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.AGVN.dao.ProjectDao;
-import com.AGVN.dao.WordDictDao;
+//import com.AGVN.dao.WordDictDao;
 import com.AGVN.dto.ProjectDto;
 import com.AGVN.dto.WordDictDto;
 import com.google.gson.JsonObject;
@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -37,9 +38,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 @Controller
 @MapperScan(basePackages="com.AGVN.dao")
 public class WebController {
-	
+	/*
 	@Autowired
 	private WordDictDao wordDictDao;
+	*/
 	@Autowired
 	private ProjectDao projectDao;
 	
@@ -54,18 +56,20 @@ public class WebController {
 	// ProjectIndex Page
 	@RequestMapping("/project")
 	public String jspProjectPage(Model model) throws Exception {
+		final List<ProjectDto> projectList = projectDao.selectProject();
+		model.addAttribute("projectList", projectList);
+		System.out.println(projectList.get(0).getProj_nm());
 		return "project";
 	}
 	
 	// ProjectList Page
 	@RequestMapping("/project/list")
 	public List<ProjectDto> projects() throws Exception {
-		final ProjectDto param = new ProjectDto();
-		final List<ProjectDto> projectList = projectDao.selectProject(param);
+		final List<ProjectDto> projectList = projectDao.selectProject();
 		return projectList;
 	}
 	
-	
+	/*
 	
 	// wordIndex Page
 	@RequestMapping("/word")
@@ -90,6 +94,7 @@ public class WebController {
 		
 		return wordDictList;
 	}
+	*/
 	
 	// File Upload Ajax
 	@RequestMapping(value="/fileupload.do", method = RequestMethod.POST,produces="application/json")

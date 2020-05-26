@@ -7,7 +7,7 @@ server:
 spring:
   datasource:
     driver-class-name	: org.mariadb.jdbc.Driver
-    url					: jdbc:mariadb://localhost:3306/AGVN?
+    url					: jdbc:mariadb://localhost:3306/AGVN?characterEncoding=UTF-8&autoReconnect=true
     password			: acorn12
     username			: acorn12
   mvc:

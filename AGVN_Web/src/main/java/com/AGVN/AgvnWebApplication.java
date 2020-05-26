@@ -17,7 +17,7 @@ public class AgvnWebApplication {
 		SpringApplication.run(AgvnWebApplication.class, args);
 	}
 	
-	/*
+	
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
@@ -28,6 +28,6 @@ public class AgvnWebApplication {
  
 		return sessionFactory.getObject();
 	}
-	*/
+	
 
 }

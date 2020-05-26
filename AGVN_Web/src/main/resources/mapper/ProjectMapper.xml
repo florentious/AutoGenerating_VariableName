@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" 
+ "htttp://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="com.AGVN.dao.ProjectDao">
+
+	<!-- CRUD -->
+	<insert id="addProject" parameterType="com.AGVN.dto.ProjectDto">
+		INSERT INTO PROJECT(PROJ_NM, PROJ_MNG)
+		VALUES      (#{proj_nm},#{proj_mng})
+	</insert>
+	<select id="selectProject" resultType="com.AGVN.dto.ProjectDto">
+		SELECT PROJ_ID, PROJ_NM, PROJ_MNG  
+		FROM   PROJECT
+	</select>
+	<update id="updateProject" parameterType="com.AGVN.dto.ProjectDto">
+		UPDATE PROJECT
+		SET    PROJ_NM = #{PROJ_NM}, PROJ_MNG = #{PROJ_MNG}
+		WHERE  PROJ_ID = #{PROJ_ID}
+	</update>
+	<delete id="deleteProject" parameterType="int">
+		DELETE FROM PROJECT
+		WHERE       PROJ_ID = #{PROJ_ID}
+	</delete>
+
+</mapper>
+

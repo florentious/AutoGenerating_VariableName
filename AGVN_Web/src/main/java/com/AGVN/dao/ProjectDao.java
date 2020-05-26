@@ -16,5 +16,11 @@ public interface ProjectDao extends JpaRepository <ProjectDto, Integer>{
 */
 
 public interface ProjectDao {
-	List<ProjectDto> selectProject(ProjectDto param) throws Exception;
+	List<ProjectDto> selectProject( ) throws Exception; 
+	boolean addProject(ProjectDto projectDto) throws Exception;
+	boolean updateProject(ProjectDto projectDto) throws Exception;
+	boolean deleteProject(int proj_id) throws Exception;
+	
+	
+	
 }
