@@ -58,7 +58,7 @@ public class WebController {
 	public String jspProjectPage(Model model) throws Exception {
 		final List<ProjectDto> projectList = projectDao.selectProject();
 		model.addAttribute("projectList", projectList);
-		System.out.println(projectList.get(0).getProj_nm());
+		System.out.println(projectList.get(0));
 		return "project";
 	}
 	
