@@ -72,7 +72,7 @@ def string2spacingChar(input_):
     # 빈칸을 '^'로 변환하기
     chars = input_.strip().replace(' ', '^')
 
-    # SOS : «, EOS : »
+    # SOS(FS) : «, EOS(BS) : »
     tagged_chars = "«" + chars + "»"
 
     char_list = ' '.join(list(tagged_chars))
