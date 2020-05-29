@@ -38,7 +38,7 @@
 					<a class="nav-link" href="/">Home</a>
 				</li>
 				<li class="nav-item active">
-					<a class="nav-link" href="wordIndex">Board<span class="sr-only">(current)</span></a>
+					<a class="nav-link" href="/word">WordDictionary<span class="sr-only">(current)</span></a>
 				</li>
 			</ul>
 		</div>

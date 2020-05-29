@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.AGVN.dao.ProjectDao;
-//import com.AGVN.dao.WordDictDao;
+import com.AGVN.dao.WordDictDao;
 import com.AGVN.dto.ProjectDto;
 import com.AGVN.dto.WordDictDto;
 import com.google.gson.JsonObject;
@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -38,10 +37,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 @Controller
 @MapperScan(basePackages="com.AGVN.dao")
 public class WebController {
-	/*
+	
 	@Autowired
 	private WordDictDao wordDictDao;
-	*/
+	
 	@Autowired
 	private ProjectDao projectDao;
 	
@@ -62,39 +61,16 @@ public class WebController {
 		return "project";
 	}
 	
-	// ProjectList Page
-	@RequestMapping("/project/list")
-	public List<ProjectDto> projects() throws Exception {
-		final List<ProjectDto> projectList = projectDao.selectProject();
-		return projectList;
-	}
-	
-	/*
-	
-	// wordIndex Page
 	@RequestMapping("/word")
-	public String jspWordPage(Model model) {
-		List<WordDictDto> wordDictList = wordDictDao.findAll();
-		model.addAttribute("wordDictList",wordDictList);
+	public String jspWordDictPage(Model model) throws Exception {
+		final List<WordDictDto> wordDictList = wordDictDao.selectWordDict();
+		
+		model.addAttribute("wordDictList", wordDictList);
+		
 		return "word";
 	}
 	
-	// wordIndex add
-	@RequestMapping("/word/add")
-	public WordDictDto wordAdd(WordDictDto wordDictDto) {
-		WordDictDto wordDictData = wordDictDao.save(wordDictDto);
-		
-		return wordDictData;
-	}
 	
-	// wordIndex list
-	@RequestMapping("/word/list")
-	public List<WordDictDto> wordList(Model model) {
-		List<WordDictDto> wordDictList = wordDictDao.findAll();
-		
-		return wordDictList;
-	}
-	*/
 	
 	// File Upload Ajax
 	@RequestMapping(value="/fileupload.do", method = RequestMethod.POST,produces="application/json")

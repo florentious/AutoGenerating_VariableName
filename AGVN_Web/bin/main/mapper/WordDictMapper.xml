@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" 
+ "htttp://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="com.AGVN.dao.WordDictDao">
+
+	<!-- CRUD -->
+	<insert id="addWordDict" parameterType="com.AGVN.dto.WordDictDto">
+		INSERT INTO WORDDICT(PROJ_ID, WORD_KOR, WORD_ENG, WORD_ABR, WORD_DEF)  
+		VALUES      (#{proj_id},#{word_kor}, #{word_eng}, #{word_abr},#{word_def})  
+	</insert>
+	<select id="selectWordDict" resultType="com.AGVN.dto.WordDictDto">
+		SELECT WORD_ID, PROJ_ID, WORD_KOR, WORD_ENG, WORD_ABR, WORD_DEF   
+		FROM   WORDDICT
+	</select>
+	<update id="updateWordDict" parameterType="com.AGVN.dto.WordDictDto">
+		UPDATE WORDDICT
+		SET    PROJ_ID=#{proj_id}, WORD_KOR=#{word_kor}, WORD_ENG=#{word_eng}, WORD_ABR=#{word_abr}, WORD_DEF=#{word_def} 
+		WHERE  WORD_ID = #{word_id}
+	</update>
+	<delete id="deleteWordDict" parameterType="int">
+		DELETE FROM WORDDICT   
+		WHERE       WORD_ID = #{word_id}   
+	</delete>
+
+</mapper>
+

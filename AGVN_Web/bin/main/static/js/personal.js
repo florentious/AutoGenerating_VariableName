@@ -101,6 +101,8 @@ $(document).ready(function() {
 					$("#outputDiv").show();					
 				} else {
 					console.log("fail_python_logs");
+					$("#loadBar").hide();
+					$("#errorDiv").show();
 				}
 				
 			},

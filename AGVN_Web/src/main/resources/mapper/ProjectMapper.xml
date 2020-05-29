@@ -17,12 +17,12 @@
 	</select>
 	<update id="updateProject" parameterType="com.AGVN.dto.ProjectDto">
 		UPDATE PROJECT
-		SET    PROJ_NM = #{PROJ_NM}, PROJ_MNG = #{PROJ_MNG}
-		WHERE  PROJ_ID = #{PROJ_ID}
+		SET    PROJ_NM = #{proj_nm}, PROJ_MNG = #{proj_mng}  
+		WHERE  PROJ_ID = #{proj_id}
 	</update>
 	<delete id="deleteProject" parameterType="int">
 		DELETE FROM PROJECT
-		WHERE       PROJ_ID = #{PROJ_ID}
+		WHERE       PROJ_ID = #{proj_id}
 	</delete>
 
 </mapper>
