@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <!-- jstl -->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -16,7 +17,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
-	
+
 <link rel="icon" href="img/ai.ico" type="image/x-icon">
 
 <title>AutoGenerating VariableName</title>
@@ -27,47 +28,73 @@
 </head>
 <body>
 	<!-- navbar start -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light"> 
-		<a class="navbar-brand" href="/">AutoGenerating VariableName</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarNav" aria-controls="navbarNav"
-			aria-expanded="false" aria-label="Toggle navigation">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light"> <a
+		class="navbar-brand" href="/">AutoGenerating VariableName</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse"
+		data-target="#navbarNav" aria-controls="navbarNav"
+		aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" href="/">Home</a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" href="/word">WordDictionary<span class="sr-only">(current)</span></a>
-				</li>
-			</ul>
-		</div>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNav">
+		<ul class="navbar-nav">
+			<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+			<li class="nav-item active"><a class="nav-link" href="/word">WordDictionary<span
+					class="sr-only">(current)</span></a></li>
+		</ul>
+	</div>
 	</nav>
 	<!-- navbar end -->
 
 	<!-- Header end -->
-	
+
 	<!-- main start -->
-	<div class="col-sm-12">
-		<c:forEach var="dictList" items="${wordDictList }">
-			${dictList.word_id } <br> ${dictList.word_kor } <br> ${dictList.word_eng } <br> ${dictList.word_abr }
-		</c:forEach>
+	<div class="col-sm-1">
 		
+		<div class="col-sm-12 row">
+		
+		</div>
+		<div class="col-sm-2">
+		
+		</div>
 	
-	
+		<div class="col-sm-8">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">Abr</th>
+						<th scope="col">Kor</th>
+						<th scope="col">Eng</th>
+						<th scope="col">Def</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="dictList" items="${wordDictList }">
+						<tr>
+							<th scope="row">${dictList.word_id }</th>
+							<td>${dictList.word_abr }</td>
+							<td>${dictList.word_kor }</td>
+							<td>${dictList.word_eng }</td>
+							<td>${dictList.word_def }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		
+		</div>
+
 	</div>
-	
-	
-	
-	
+
+
+
+
 	<!-- main end -->
-	
-	
-	
+
+
+
 	<!-- footer -->
-	
+
 	<!-- Bootstrap JS -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -87,4 +114,3 @@
 	<script src="/js/personal.js"></script>
 </body>
 </html>
-	
