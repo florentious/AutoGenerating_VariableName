@@ -11,6 +11,7 @@ class Options:
         self.colab_base_path = jsonObj['colab_base_path']
         self.base_dictionary_path = jsonObj['base_dictionary_path']
         self.webdriver_path = jsonObj['webdriver_path']
+        self.article_path = jsonObj['article_path']
 
         self.w2idx_model = jsonObj['w2idx_model']
         self.w2idx_embed = jsonObj['w2idx_embed']

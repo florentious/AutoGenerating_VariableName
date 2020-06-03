@@ -9,6 +9,7 @@
   "weight_path": "data/embed/weights/",
   "weight_name": "spacing_model",
   "py2java_path": "../AGVN_Web/",
+  "article_path": "data/article.txt",
 
   "host_ip": "localhost",
   "host_port": "9898",

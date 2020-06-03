@@ -3,10 +3,10 @@ convert_file
 
 """
 from utils import option
-from utils.convert import convert_File, getWordDict, select_spacing, convert_kor2abr
+from utils.convert import convert_File, getWordDict, select_spacing, convert_kor2abr, abbreviate
 from model.predict import predict_test
 from model.model import model_load
-from utils.util import changeDirSperacte
+from utils.util import changeDirSperacte, delArticle
 
 model = model_load()
 opt = option.Options()
@@ -21,3 +21,4 @@ output_path = opt.py2java_path + 'data/convert'
 # isSuccess, output_path = convert_File(input_path, output_path, model, isUseDict=False, useType='self_product')
 
 # predict_test()
+

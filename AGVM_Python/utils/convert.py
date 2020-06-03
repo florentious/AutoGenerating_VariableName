@@ -14,7 +14,7 @@ from collections import defaultdict
 from konlpy.tag import Okt
 from utils.option import Options
 from model.predict import predict
-from utils.util import sumStrList, getSpacedKor, mkdirs_, delEscapeChar, changeDirSperacte
+from utils.util import sumStrList, getSpacedKor, mkdirs_, delEscapeChar, changeDirSperacte, delArticle
 from utils.translate_define import translate,define_word
 
 opt = Options()
@@ -81,13 +81,18 @@ def select_spacing(input_, model, type_='konlpy') :
 
 # make abbreviation, return txt(upper)
 def abbreviate(eng):
+    # del articles(ex. a, the ..)
+    tmp = delArticle(eng)
+
+    # save_first_charactor
+    tmp_firstChar = tmp[0]
     # except first_charactor
-    tmp = eng.lower()[1:]
+    tmp = tmp.lower()[1:]
 
     # del escape_char
     tmp = delEscapeChar(tmp)
 
-    if len(tmp) > 2:
+    if len(tmp) > 1:
         # del vowel
         regex = re.compile('[^aeiou]')
         tmp_sec = ''.join(regex.findall(tmp))
@@ -98,12 +103,12 @@ def abbreviate(eng):
             tmp_sec = re.sub(dup, ch, tmp_sec)
 
         # if del too much, backUp to origin
-        if len(tmp_sec) > 2 :
+        if len(tmp_sec) > 1 :
             tmp = tmp_sec
 
 
     # del blank
-    return (eng[0]+re.sub(' ', '', tmp)).upper()
+    return (tmp_firstChar+re.sub(' ', '', tmp)).upper()
 
 # is word in dictionary_ return : boolean
 def isInDict(word, dict_):

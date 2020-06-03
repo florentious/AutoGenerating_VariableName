@@ -111,3 +111,18 @@ def getSpacedKor(input_) :
 def delEscapeChar(input_) :
     regex = re.compile('[a-zA-Z]')
     return ''.join(regex.findall(input_))
+
+def delArticle(input_) :
+    tmp = input_.lower().split(' ')
+
+    with open(opt.article_path) as f :
+        articleList = f.readlines()
+
+    # check '\n'
+    articleList = list(map(lambda x: x[:-1] if x[-1] == '\n' else x, articleList))
+
+    for w in tmp :
+        if w in articleList :
+            tmp.remove(w)
+
+    return ' '.join(tmp)
