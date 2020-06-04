@@ -9,3 +9,5 @@
 2020/05/25 10:52:48 [notice] 2012#13004: signal process started
 2020/05/26 16:32:38 [notice] 4800#6384: signal process started
 2020/05/29 15:11:01 [notice] 6352#10504: signal process started
+2020/06/03 12:46:11 [error] 8728#8208: *97 upstream prematurely closed connection while reading response header from upstream, client: 127.0.0.1, server: localhost, request: "POST /conveySocket.do HTTP/1.1", upstream: "http://127.0.0.1:8080/conveySocket.do", host: "localhost", referrer: "http://localhost/"
+2020/06/04 20:06:01 [notice] 9732#9976: signal process started
