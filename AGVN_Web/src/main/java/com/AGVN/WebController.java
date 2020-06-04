@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -281,6 +283,47 @@ public class WebController {
 		os.close();
 		
 	}
+	
+	/*
+	@RequestMapping("/excelRead.do")
+	public void readExcel(@RequestParam("file") MultipartFile file, Model model) throws IOException {
+		
+		List<WordDictDto> wordList = new ArrayList<>();
+		
+		String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+		
+		Workbook workBook = null;
+		
+		if(extension.equals("xlsx")) {
+			workBook = new XSSFWorkbook(file.getInputStream());
+		} else if(extension.equals("xls")) {
+			workBook = new HSSFWorkbook(file.getInputStream());
+		}
+		
+		Sheet worksheet = workBook.getSheet("단어");
+		
+		for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
+			Row row = worksheet.getRow(i);
+			
+			WordDictDto dto = new WordDictDto();
+			
+			int idx = 0;
+			dto.setWord_kor(row.getCell(idx++).getStringCellValue());
+			dto.setWord_eng(row.getCell(idx++).getStringCellValue());
+			dto.setWord_abr(row.getCell(idx++).getStringCellValue());
+			dto.setWord_def(row.getCell(idx++).getStringCellValue());
+			
+			wordList.add(dto);
+		}
+		
+		for(WordDictDto dto : wordList) {
+			wordDictDao.addWordDict(dto);
+		}
+		
+		
+	}
+	*/
+	
 	
 	
 	
