@@ -48,17 +48,24 @@
 	<!-- Header end -->
 
 	<!-- main start -->
-	<div class="col-sm-1">
+	<div class="col-sm-12">
 		
 		<div class="col-sm-12 row">
 		
-		</div>
+		
 		<div class="col-sm-2">
 		
 		</div>
 	
 		<div class="col-sm-8">
 			<table class="table table-hover">
+				<colgroup>
+					<col width="5%" />
+					<col width="10%"/>
+					<col width="15%"/>
+					<col width="15%"/>
+					<col width="55%"/>
+				</colgroup>
 				<thead>
 					<tr>
 						<th scope="col">Id</th>
@@ -70,6 +77,7 @@
 					</tr>
 				</thead>
 				<tbody>
+					
 					<c:forEach var="dictList" items="${wordDictList }">
 						<tr>
 							<th scope="row">${dictList.word_id }</th>
@@ -82,6 +90,7 @@
 				</tbody>
 			</table>
 		
+		</div>
 		</div>
 
 	</div>

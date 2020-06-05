@@ -207,25 +207,47 @@ def dict2sheet(path, input_, dict_):
     # dict_col 단어명,영문명,약어명,정의
 
     tmp = pd.DataFrame([])
+    tmp2 = pd.DataFrame([])
     wrd = np.array([])
     eng = np.array([])
     abr = np.array([])
     def_ = np.array([])
+    def_short = np.array([])
 
     for k in dict_.keys():
         wrd = np.append(wrd, k)
         eng = np.append(eng, dict_[k][0])
         abr = np.append(abr, dict_[k][1])
         def_ = np.append(def_, dict_[k][2])
+        def_short = np.append(def_short, dict_[k][2] if len(dict_[k][2]) <=1024 else dict_[k][2][:1025])
 
     tmp['단어명'] = wrd
     tmp['영문명'] = eng
     tmp['약어명'] = abr
     tmp['정의'] = def_
 
+    tmp2['단어명'] = wrd
+    tmp2['영문명'] = eng
+    tmp2['약어명'] = abr
+    tmp2['정의'] = def_short
+
+    excel2wordDb(tmp2)
+
     with pd.ExcelWriter(path, engine='xlsxwriter') as ew:
         tmp.to_excel(ew, sheet_name='단어', index=False)
         input_.to_excel(ew, sheet_name='용어', index=False)
+
+
+def excel2wordDb(input_) :
+    import sqlalchemy
+    sqlUrl = 'mysql+pymysql://acorn12:acorn12@localhost:3306/AGVN'
+
+    engine = sqlalchemy.create_engine(sqlUrl,echo=True)
+
+    tmp = input_.rename({'단어명':'WORD_KOR', '영문명':'WORD_ENG', '약어명':'WORD_ABR','정의':'WORD_DEF'},axis='columns')
+    tmp['PROJ_ID'] = 1
+
+    tmp.to_sql('worddict', con=engine, if_exists='append',index=False)
 
 
 
